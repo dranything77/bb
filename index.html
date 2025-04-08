@@ -36,6 +36,7 @@
       backdrop-filter: blur(12px);
       z-index: 1000;
       box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      transition: top 0.5s ease;
     }
 
     .spacer {
@@ -55,13 +56,13 @@
       justify-content: center;
       background-color: #ffffff;
       opacity: 0;
-      transform: translateY(60px) scale(0.98);
-      transition: all 1s ease;
+      transform: translateY(60px);
+      transition: opacity 1s ease, transform 1s ease;
     }
 
     .page.visible {
       opacity: 1;
-      transform: translateY(0) scale(1);
+      transform: translateY(0);
     }
 
     .page img {
@@ -87,13 +88,13 @@
 </head>
 <body>
 
-  <!-- Background Music -->
+  <!-- 🎵 Background Music -->
   <audio autoplay loop>
     <source src="soft-music.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
 
-  <header>Blink and Blush</header>
+  <header id="mainHeader">Blink and Blush</header>
   <div class="spacer"></div>
 
   <div class="container">
@@ -111,6 +112,7 @@
   </footer>
 
   <script>
+    // Scroll fade animation
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -121,6 +123,22 @@
 
     document.querySelectorAll('.page').forEach(page => {
       observer.observe(page);
+    });
+
+    // Header hide on scroll
+    let lastScrollTop = 0;
+    const header = document.getElementById("mainHeader");
+
+    window.addEventListener("scroll", function () {
+      const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+      if (currentScroll > lastScrollTop && currentScroll > 100) {
+        // scroll down
+        header.style.top = "-100px";
+      } else {
+        // scroll up
+        header.style.top = "0";
+      }
+      lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
     });
   </script>
 
