@@ -40,24 +40,6 @@
       transition: opacity 0.5s ease, transform 0.5s ease;
     }
 
-    .collapsed-button {
-      position: fixed;
-      top: 15px;
-      left: 20px;
-      background: rgba(255, 255, 255, 0.3);
-      border: 1px solid #ddd;
-      color: #333;
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      font-family: 'Poppins', sans-serif;
-      cursor: pointer;
-      display: none;
-      z-index: 2000;
-      backdrop-filter: blur(6px);
-    }
-
     .spacer {
       height: 80px;
     }
@@ -119,7 +101,6 @@
   </audio>
 
   <header id="mainHeader">Blink and Blush</header>
-  <div id="miniHeader" class="collapsed-button" onclick="event.stopPropagation(); window.scrollTo({top: 0, behavior: 'smooth'});">Blink + Blush</div>
   <div class="spacer"></div>
 
   <div class="container">
@@ -137,7 +118,7 @@
   </footer>
 
   <script>
-    // Scroll fade-in
+    // Scroll fade-in animation
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -150,23 +131,15 @@
       observer.observe(page);
     });
 
-    // Header collapse logic
+    // Hide header on scroll
     let lastScrollTop = 0;
     const header = document.getElementById("mainHeader");
-    const miniHeader = document.getElementById("miniHeader");
 
     window.addEventListener("scroll", function () {
       const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
       if (currentScroll > lastScrollTop && currentScroll > 100) {
-        // scroll down → hide header
         header.style.opacity = "0";
         header.style.transform = "translateY(-100px)";
-        miniHeader.style.display = "block";
-      } else if (currentScroll < lastScrollTop) {
-        // scroll up → show mini header only
-        header.style.opacity = "0";
-        header.style.transform = "translateY(-100px)";
-        miniHeader.style.display = "block";
       }
       lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
     });
